@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karta Polaka - Bilet Egzaminacyjny</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #dc143c 0%, #ffffff 50%, #dc143c 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideIn 0.6s ease-out;
+            margin: 20px 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #dc143c, #a01028);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            animation: shine 20s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 6px solid #dc143c;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #dc143c;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+
+        .question-text {
+            font-size: 1.25em;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.6;
+        }
+
+        .question-subtext {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .answer {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 3px solid #dc143c;
+        }
+
+        .answer-label {
+            color: #dc143c;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            display: block;
+        }
+
+        .answer-text {
+            color: #2c3e50;
+            font-size: 1.15em;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .answer-details {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #4a90e2;
+        }
+
+        .answer-details h4 {
+            color: #4a90e2;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .answer-details ul {
+            margin-left: 20px;
+            color: #2c3e50;
+        }
+
+        .answer-details li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .flag {
+            font-size: 4em;
+            margin: 10px 0;
+        }
+
+        .print-btn {
+            background: linear-gradient(135deg, #dc143c, #a01028);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 40px auto;
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);
+        }
+
+        .print-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 20, 60, 0.4);
+        }
+
+        .emblem {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 3em;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="flag">🇵🇱</div>
+            <h1>Karta Polaka</h1>
+            <p>Bilet Egzaminacyjny - Pytania i Odpowiedzi</p>
+            <div class="emblem">🦅</div>
+        </div>
+
+        <div class="content">
+            <div class="question-card">
+                <span class="question-number">Pytanie 1</span>
+                <div class="question-text">Proszę nazwać polskie góry?</div>
+                <div class="question-subtext">(Назовите польские горы?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Główne pasma górskie w Polsce:</strong>
+                    </div>
+                    <div class="answer-details">
+                        <ul>
+                            <li><strong>Karpaty (Карпаты)</strong> - najdłuższe pasmo górskie w Polsce, ciągną się przez południową część kraju</li>
+                            <li><strong>Tatry (Татры)</strong> - najwyższe góry w Polsce, część Karpat. Najwyższy szczyt to Rysy (2499 m)</li>
+                            <li><strong>Sudety (Судеты)</strong> - pasmo górskie na południowym zachodzie Polski, na granicy z Czechami</li>
+                            <li><strong>Bieszczady (Бещады)</strong> - góry w południowo-wschodniej Polsce, część Karpat Wschodnich</li>
+                            <li><strong>Pieniny (Пенины)</strong> - małe pasmo górskie znane z spływów Dunajcem</li>
+                            <li><strong>Beskidy (Бескиды)</strong> - łańcuch górski w Karpatach</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 2</span>
+                <div class="question-text">Proszę nazwać polskie rzeki?</div>
+                <div class="question-subtext">(Назовите польские реки?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Najważniejsze rzeki Polski:</strong>
+                    </div>
+                    <div class="answer-details">
+                        <ul>
+                            <li><strong>Wisła (Висла)</strong> - najdłuższa rzeka Polski (1047 km), wpada do Morza Bałtyckiego</li>
+                            <li><strong>Odra (Одра)</strong> - druga co do długości rzeka (854 km), wpada do Morza Bałtyckiego</li>
+                            <li><strong>Warta (Варта)</strong> - najdłuższy dopływ Odry (808 km)</li>
+                            <li><strong>Bug (Буг)</strong> - rzeka graniczna z Białorusią i Ukrainą (772 km)</li>
+                            <li><strong>San (Сан)</strong> - dopływ Wisły (443 km)</li>
+                            <li><strong>Narew (Нарев)</strong> - prawy dopływ Wisły</li>
+                            <li><strong>Pilica (Пилица)</strong> - lewy dopływ Wisły</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 3</span>
+                <div class="question-text">Liczba mieszkańców Polski?</div>
+                <div class="question-subtext">(Количество населения Польши?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Około 38 milionów mieszkańców (около 38 миллионов жителей)</strong>
+                    </div>
+                    <div class="answer-details">
+                        <h4>Dodatkowe informacje:</h4>
+                        <ul>
+                            <li>Polska jest 5. krajem pod względem liczby ludności w Unii Europejskiej</li>
+                            <li>Gęstość zaludnienia: około 123 osoby na km²</li>
+                            <li>Około 60% ludności mieszka w miastach</li>
+                            <li>Warszawa jest największym miastem z ponad 1,8 mln mieszkańców</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 4</span>
+                <div class="question-text">Zimowa stolica Polski?</div>
+                <div class="question-subtext">(Зимняя столица Польши?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Warszawa (Варшава)</strong> - stolica i największe miasto Polski
+                    </div>
+                    <div class="answer-details">
+                        <h4>O Warszawie:</h4>
+                        <ul>
+                            <li>Stolica Polski od 1596 roku</li>
+                            <li>Leży nad rzeką Wisłą</li>
+                            <li>Centrum polityczne, gospodarcze i kulturalne kraju</li>
+                            <li>Stare Miasto wpisane na listę UNESCO</li>
+                            <li>Odbudowana po II wojnie światowej (zniszczona w 85%)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 5</span>
+                <div class="question-text">Ile w Polsce jest województw? Proszę podać kilka</div>
+                <div class="question-subtext">(Сколько в Польше воеводств? Перечислить несколько)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>W Polsce jest 16 województw (16 воеводств)</strong>
+                    </div>
+                    <div class="answer-details">
+                        <h4>Lista wszystkich województw:</h4>
+                        <ul>
+                            <li><strong>Mazowieckie</strong> (stolica: Warszawa)</li>
+                            <li><strong>Małopolskie</strong> (stolica: Kraków)</li>
+                            <li><strong>Wielkopolskie</strong> (stolica: Poznań)</li>
+                            <li><strong>Dolnośląskie</strong> (stolica: Wrocław)</li>
+                            <li><strong>Pomorskie</strong> (stolica: Gdańsk)</li>
+                            <li><strong>Śląskie</strong> (stolica: Katowice)</li>
+                            <li><strong>Łódzkie</strong> (stolica: Łódź)</li>
+                            <li><strong>Zachodniopomorskie</strong> (stolica: Szczecin)</li>
+                            <li><strong>Lubelskie</strong> (stolica: Lublin)</li>
+                            <li><strong>Podkarpackie</strong> (stolica: Rzeszów)</li>
+                            <li><strong>Kujawsko-Pomorskie</strong> (stolica: Bydgoszcz i Toruń)</li>
+                            <li><strong>Warmińsko-Mazurskie</strong> (stolica: Olsztyn)</li>
+                            <li><strong>Podlaskie</strong> (stolica: Białystok)</li>
+                            <li><strong>Świętokrzyskie</strong> (stolica: Kielce)</li>
+                            <li><strong>Lubuskie</strong> (stolica: Gorzów Wielkopolski i Zielona Góra)</li>
+                            <li><strong>Opolskie</strong> (stolica: Opole)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 6</span>
+                <div class="question-text">Jak się nazywa polski hymn?</div>
+                <div class="question-subtext">(Как называется польский гимн?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>"Mazurek Dąbrowskiego"</strong> (Мазурка Домбровского)<br>
+                        lub <strong>"Jeszcze Polska nie zginęła"</strong> (Ещё Польша не погибла)
+                    </div>
+                    <div class="answer-details">
+                        <h4>O hymnie:</h4>
+                        <ul>
+                            <li>Powstał w 1797 roku we Włoszech</li>
+                            <li>Napisany podczas kampanii napoleońskiej</li>
+                            <li>Oficjalny hymn Polski od 1927 roku</li>
+                            <li>Pierwsze słowa: "Jeszcze Polska nie zginęła, kiedy my żyjemy"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 7</span>
+                <div class="question-text">Kto napisał słowa i muzykę do hymnu?</div>
+                <div class="question-subtext">(Кто написал слова и музыку гимна?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Słowa:</strong> Józef Wybicki (Юзеф Выбицкий)<br>
+                        <strong>Muzyka:</strong> Melodia ludowa, prawdopodobnie oparty na mazurku (народная мелодия)
+                    </div>
+                    <div class="answer-details">
+                        <h4>Szczegóły:</h4>
+                        <ul>
+                            <li>Józef Wybicki (1747-1822) - polski poeta, działacz polityczny</li>
+                            <li>Napisał tekst w Reggio nell'Emilia we Włoszech w 1797 roku</li>
+                            <li>Muzyka ma charakter mazurka - tradycyjnego polskiego tańca</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 8</span>
+                <div class="question-text">Jak wygląda polska flaga?</div>
+                <div class="question-subtext">(Как выглядит польский флаг?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Flaga Polski składa się z dwóch równych poziomych pasów:</strong><br>
+                        ⬜ Górny pas - <strong>biały</strong> (белый)<br>
+                        🟥 Dolny pas - <strong>czerwony</strong> (красный)
+                    </div>
+                    <div class="answer-details">
+                        <h4>Proporcje i użycie:</h4>
+                        <ul>
+                            <li>Proporcje flagi: 5:8</li>
+                            <li>Flaga państwowa z godłem używana przez instytucje państwowe</li>
+                            <li>Flaga bez godła używana przez obywateli</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 9</span>
+                <div class="question-text">Co oznaczają kolory polskiej flagi?</div>
+                <div class="question-subtext">(Что означают цвета польского флага?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Symbolika kolorów:</strong>
+                    </div>
+                    <div class="answer-details">
+                        <ul>
+                            <li><strong>Biały</strong> - symbolizuje czystość, niewinność, pokój, szlachetność. Pochodzi od białego orła z herbu Polski</li>
+                            <li><strong>Czerwony</strong> - symbolizuje męstwo, odwagę, siłę i krew przelaną za ojczyznę. Pochodzi od czerwonego tła herbu Polski</li>
+                            <li>Kolory wywodzą się z herbu Polski - białego orła na czerwonym tle</li>
+                            <li>Te barwy narodowe są używane od XIII wieku</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 10</span>
+                <div class="question-text">Co można zobaczyć w Warszawie?</div>
+                <div class="question-subtext">(Что можно увидеть в Варшаве?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Główne atrakcje Warszawy:</strong>
+                    </div>
+                    <div class="answer-details">
+                        <ul>
+                            <li><strong>Stare Miasto (Старый город)</strong> - odbudowane po wojnie, wpisane na listę UNESCO</li>
+                            <li><strong>Zamek Królewski (Королевский замок)</strong> - dawna rezydencja królów Polski</li>
+                            <li><strong>Pałac Kultury i Nauki (Дворец культуры и науки)</strong> - najwyższy budynek w Polsce (237 m)</li>
+                            <li><strong>Pomnik Chopina w Łazienkach (Памятник Шопену)</strong> - w pięknym parku Łazienki Królewskie</li>
+                            <li><strong>Pomnik Powstania Warszawskiego</strong> - upamiętniający bohaterów powstania 1944</li>
+                            <li><strong>Pałac w Wilanowie</strong> - barokowa rezydencja króla Jana III Sobieskiego</li>
+                            <li><strong>Trakt Królewski</strong> - reprezentacyjna ulica</li>
+                            <li><strong>Barbakan Warszawski</strong> - fragment dawnych fortyfikacji</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 11</span>
+                <div class="question-text">Co można zobaczyć w Krakowie?</div>
+                <div class="question-subtext">(Что можно увидеть в Кракове?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Główne atrakcje Krakowa:</strong>
+                    </div>
+                    <div class="answer-details">
+                        <ul>
+                            <li><strong>Zamek Wawelski (Вавельский замок)</strong> - dawna rezydencja królów Polski, symbol państwowości polskiej</li>
+                            <li><strong>Katedra Wawelska</strong> - miejsce koronacji i pochówku królów</li>
+                            <li><strong>Rynek Główny (Главная рыночная площадь)</strong> - największy średniowieczny plac rynkowy w Europie</li>
+                            <li><strong>Kościół Mariacki (Мариацкий костёл)</strong> - gotycki kościół z słynnym ołtarzem Wita Stwosza</li>
+                            <li><strong>Sukiennice (Суконные ряды)</strong> - renesansowy budynek handlowy na Rynku</li>
+                            <li><strong>Kazimierz</strong> - historyczna dzielnica żydowska</li>
+                            <li><strong>Kopalnia Soli w Wieliczce</strong> - zabytek UNESCO niedaleko Krakowa</li>
+                            <li><strong>Planty Krakowskie</strong> - pas zieleni wokół Starego Miasta</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 12</span>
+                <div class="question-text">Sąsiedzi Polski?</div>
+                <div class="question-subtext">(Соседи Польши?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Polska graniczy z 7 krajami:</strong>
+                    </div>
+                    <div class="answer-details">
+                        <ul>
+                            <li><strong>Niemcy (Германия)</strong> - na zachodzie (467 km granicy)</li>
+                            <li><strong>Czechy (Чехия)</strong> - na południu (796 km)</li>
+                            <li><strong>Słowacja (Словакия)</strong> - na południu (541 km)</li>
+                            <li><strong>Ukraina (Украина)</strong> - na wschodzie (535 km)</li>
+                            <li><strong>Białoruś (Беларусь)</strong> - na wschodzie (418 km)</li>
+                            <li><strong>Litwa (Литва)</strong> - na północnym wschodzie (104 km)</li>
+                            <li><strong>Rosja - Obwód Kaliningradzki (Россия - Калининградская область)</strong> - na północy (210 km)</li>
+                        </ul>
+                        <h4>Dodatkowo:</h4>
+                        <ul>
+                            <li>Długość wszystkich granic lądowych: około 3511 km</li>
+                            <li>Długość wybrzeża Morza Bałtyckiego: około 770 km</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 13</span>
+                <div class="question-text">Czy Polska ma dostęp do morza? Jakiego?</div>
+                <div class="question-subtext">(Имеет ли Польша выход к морю? Какому?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Tak, Polska ma dostęp do Morza Bałtyckiego (Балтийское море)</strong>
+                    </div>
+                    <div class="answer-details">
+                        <h4>O polskim wybrzeżu:</h4>
+                        <ul>
+                            <li>Długość wybrzeża: około 770 km</li>
+                            <li>Morze Bałtyckie to morze śródlądowe w Europie Północnej</li>
+                            <li>Polska odzyskała dostęp do morza w 1918 roku po 123 latach zaborów</li>
+                            <li>Główne regiony nadmorskie: Pomorze Zachodnie i Pomorze Gdańskie</li>
+                            <li>Polskie morze terytorialne rozciąga się na 12 mil morskich od brzegu</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 14</span>
+                <div class="question-text">Polskie miasta portowe?</div>
+                <div class="question-subtext">(Польские портовые города?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Główne polskie porty morskie:</strong>
+                    </div>
+                    <div class="answer-details">
+                        <ul>
+                            <li><strong>Gdańsk (Гданьск)</strong> - największy port w Polsce, ważny port kontenerowy i pasażerski</li>
+                            <li><strong>Gdynia (Гдыня)</strong> - nowoczesny port handlowy, zbudowany w dwudziestoleciu międzywojennym</li>
+                            <li><strong>Szczecin (Щецин)</strong> - duży port nad rzeką Odrą, blisko ujścia do Bałtyku</li>
+                            <li><strong>Świnoujście (Свиноуйсьце)</strong> - port promowy i terminal gazowy LNG</li>
+                            <li><strong>Police</strong> - port przemysłowy</li>
+                            <li><strong>Kołobrzeg (Колобжег)</strong> - port rybacki i turystyczny</li>
+                            <li><strong>Ustka</strong> - port rybacki</li>
+                        </ul>
+                        <h4>Trójmiasto:</h4>
+                        <ul>
+                            <li>Gdańsk, Gdynia i Sopot tworzą aglomerację zwaną Trójmiastem</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <span class="question-number">Pytanie 15</span>
+                <div class="question-text">Godło Warszawy?</div>
+                <div class="question-subtext">(Герб Варшавы?)</div>
+                <div class="answer">
+                    <span class="answer-label">Odpowiedź / Ответ:</span>
+                    <div class="answer-text">
+                        <strong>Syrenka Warszawska (Варшавская сирена)</strong> - syrena (połowa kobieta, połowa ryba) z mieczem i tarczą
+                    </div>
+                    <div class="answer-details">
+                        <h4>Legenda o Syrenie:</h4>
+                        <ul>
+                            <li>Według legendy syrenka wypłynęła z Bałtyku Wisłą do Warszawy</li>
+                            <li>Rybacy ją złapali, ale uwolnili, bo była dobra i pomagała im</li>
+                            <li>W podzięce Syrenka obiecała bronić miasta</li>
+                            <li>Dlatego trzyma miecz (do obrony) i tarczę (
